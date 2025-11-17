@@ -8,13 +8,16 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
 
 func RewardUser(c *gin.Context) {
+	log := initializers.Log
 	var req models.RewardRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
+		log.WithError(err).Warn("Invalid reward request")
 		c.JSON(http.StatusBadRequest, models.RewardResponse{
 			Success: false,
 			Message: fmt.Sprintf("Invalid request: %v", err),
@@ -26,12 +29,14 @@ func RewardUser(c *gin.Context) {
 	err := initializers.DB.Where("id = ?", req.ID).First(&existingReward).Error
 
 	if err == nil {
+		log.WithField("reward_id", req.ID).Warn("Duplicate reward ID")
 		c.JSON(http.StatusConflict, models.RewardResponse{
 			Success: false,
 			Message: fmt.Sprintf("Reward with ID '%s' has already been processed", req.ID),
 		})
 		return
 	} else if err != gorm.ErrRecordNotFound {
+		log.WithError(err).WithField("reward_id", req.ID).Error("Database error checking reward")
 		c.JSON(http.StatusInternalServerError, models.RewardResponse{
 			Success: false,
 			Message: fmt.Sprintf("Database error: %v", err),
@@ -41,6 +46,7 @@ func RewardUser(c *gin.Context) {
 
 	stockPrice, err := services.GetCurrentStockPrice(req.StockSymbol)
 	if err != nil {
+		log.WithError(err).WithField("stock_symbol", req.StockSymbol).Error("Failed to get stock price")
 		c.JSON(http.StatusInternalServerError, models.RewardResponse{
 			Success: false,
 			Message: fmt.Sprintf("Failed to get stock price: %v", err),
@@ -73,12 +79,21 @@ func RewardUser(c *gin.Context) {
 	})
 
 	if err != nil {
+		log.WithError(err).WithField("reward_id", req.ID).Error("Failed to record reward")
 		c.JSON(http.StatusInternalServerError, models.RewardResponse{
 			Success: false,
 			Message: err.Error(),
 		})
 		return
 	}
+
+	log.WithFields(logrus.Fields{
+		"reward_id":  reward.ID,
+		"user_id":    reward.UserID,
+		"symbol":     reward.StockSymbol,
+		"quantity":   reward.Quantity,
+		"total_cost": charges.TotalCost,
+	}).Info("Reward recorded successfully")
 
 	c.JSON(http.StatusCreated, models.RewardResponse{
 		Success:        true,

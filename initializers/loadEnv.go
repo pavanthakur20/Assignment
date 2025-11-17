@@ -1,16 +1,16 @@
 package initializers
 
 import (
-	"log"
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/sirupsen/logrus"
 )
 
 func LoadEnv() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Println("Warning: Error loading .env file, using system environment variables")
+		logrus.Warn("Error loading .env file, using system environment variables")
 	}
 }
 

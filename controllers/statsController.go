@@ -1,17 +1,17 @@
 package controllers
 
 import (
-	"net/http"
-	"time"
-
 	"assignment/initializers"
 	"assignment/models"
 	"assignment/services"
+	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 func GetUserStats(c *gin.Context) {
+	log := initializers.Log
 	userID := c.Param("userId")
 
 	now := time.Now()
@@ -24,6 +24,7 @@ func GetUserStats(c *gin.Context) {
 		Find(&allRewards).Error
 
 	if err != nil {
+		log.WithError(err).WithField("user_id", userID).Error("Failed to fetch user rewards")
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Failed to fetch user rewards",
 			"details": err.Error(),
@@ -62,6 +63,7 @@ func GetUserStats(c *gin.Context) {
 
 	prices, err := services.GetCurrentPrices(symbolsList)
 	if err != nil {
+		log.WithError(err).WithField("user_id", userID).Error("Failed to fetch current prices")
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Failed to fetch current prices",
 			"details": err.Error(),

@@ -1,17 +1,17 @@
 package controllers
 
 import (
-	"net/http"
-	"time"
-
 	"assignment/initializers"
 	"assignment/models"
 	"assignment/services"
+	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 func GetUserPortfolio(c *gin.Context) {
+	log := initializers.Log
 	userID := c.Param("userId")
 
 	var rewards []models.StockReward
@@ -20,6 +20,7 @@ func GetUserPortfolio(c *gin.Context) {
 		Find(&rewards).Error
 
 	if err != nil {
+		log.WithError(err).WithField("user_id", userID).Error("Failed to fetch portfolio")
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Failed to fetch portfolio",
 			"details": err.Error(),
@@ -39,6 +40,7 @@ func GetUserPortfolio(c *gin.Context) {
 
 	prices, err := services.GetCurrentPrices(symbols)
 	if err != nil {
+		log.WithError(err).WithField("user_id", userID).Error("Failed to fetch current prices")
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Failed to fetch current prices",
 			"details": err.Error(),

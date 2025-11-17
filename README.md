@@ -9,7 +9,7 @@ A Go-based REST API system for managing stock rewards with double-entry ledger a
 - **Portfolio Tracking**: View user portfolios with current valuations
 - **Statistics**: Daily and historical statistics for user rewards
 - **Idempotency**: Prevent duplicate reward processing
-- **Note**: ## 📊 Supported Stocks
+- **Note**: ## Supported Stocks
 
 The system supports the following Indian stocks:
 
@@ -132,7 +132,7 @@ The API is now running at `http://localhost:8080`
 
 ### Base URL
 ```
-http://localhost:8080/api/v1
+http://localhost:8080
 ```
 
 ### Endpoints

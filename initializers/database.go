@@ -3,7 +3,6 @@ package initializers
 import (
 	"assignment/models"
 	"fmt"
-	"log"
 	"os"
 
 	"gorm.io/driver/postgres"
@@ -18,25 +17,28 @@ func ConnectDB() {
 	dbURL := os.Getenv("DB_URL")
 
 	if dbURL == "" {
-		log.Fatal("DB_URL environment variable is not set")
+		Log.Fatal("DB_URL environment variable is not set")
 	}
+
+	dbLogLevel := logger.Warn
 	DB, err = gorm.Open(postgres.Open(dbURL), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info),
+		Logger: logger.Default.LogMode(dbLogLevel),
 	})
 
 	if err != nil {
-		log.Fatalf("Unable to connect to database: %v\n", err)
+		Log.WithError(err).Fatal("Unable to connect to database")
 	}
 
-	fmt.Println("Connected to database successfully")
+	Log.Info("Connected to database successfully")
 
 	err = runMigrations()
 	if err != nil {
-		log.Fatalf("Failed to run migrations: %v\n", err)
+		Log.WithError(err).Fatal("Failed to run migrations")
 	}
 }
 
 func runMigrations() error {
+	Log.Info("Running database migrations...")
 	err := DB.AutoMigrate(
 		&models.StockReward{},
 		&models.LedgerEntry{},
@@ -46,7 +48,7 @@ func runMigrations() error {
 		return fmt.Errorf("auto migration error: %v", err)
 	}
 
-	fmt.Println("Database migrations completed successfully")
+	Log.Info("Database migrations completed successfully")
 	return nil
 }
 
@@ -55,7 +57,7 @@ func CloseDB() {
 		sqlDB, err := DB.DB()
 		if err == nil {
 			sqlDB.Close()
-			fmt.Println("Database connection closed")
+			Log.Info("Database connection closed")
 		}
 	}
 }

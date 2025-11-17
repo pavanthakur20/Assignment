@@ -1,17 +1,17 @@
 package controllers
 
 import (
-	"net/http"
-	"time"
-
 	"assignment/initializers"
 	"assignment/models"
 	"assignment/services"
+	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 func GetHistoricalINR(c *gin.Context) {
+	log := initializers.Log
 	userID := c.Param("userId")
 
 	now := time.Now()
@@ -22,6 +22,7 @@ func GetHistoricalINR(c *gin.Context) {
 		Find(&rewards).Error
 
 	if err != nil {
+		log.WithError(err).WithField("user_id", userID).Error("Failed to fetch historical data")
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Failed to fetch historical data",
 			"details": err.Error(),

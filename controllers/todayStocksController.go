@@ -1,16 +1,16 @@
 package controllers
 
 import (
-	"net/http"
-	"time"
-
 	"assignment/initializers"
 	"assignment/models"
+	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 func GetTodayStocks(c *gin.Context) {
+	log := initializers.Log
 	userID := c.Param("userId")
 
 	now := time.Now()
@@ -24,6 +24,7 @@ func GetTodayStocks(c *gin.Context) {
 		Find(&rewards).Error
 
 	if err != nil {
+		log.WithError(err).WithField("user_id", userID).Error("Failed to fetch today's stocks")
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Failed to fetch today's stocks",
 			"details": err.Error(),

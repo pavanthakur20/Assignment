@@ -12,6 +12,7 @@ import (
 
 func init() {
 	initializers.LoadEnv()
+	initializers.InitLogger()
 	initializers.ConnectDB()
 }
 
@@ -20,14 +21,11 @@ func main() {
 
 	server := gin.Default()
 
-	v1 := server.Group("/api/v1")
-	{
-		v1.POST("/reward", controllers.RewardUser)
-		v1.GET("/today-stocks/:userId", controllers.GetTodayStocks)
-		v1.GET("/historical-inr/:userId", controllers.GetHistoricalINR)
-		v1.GET("/stats/:userId", controllers.GetUserStats)
-		v1.GET("/portfolio/:userId", controllers.GetUserPortfolio)
-	}
+	server.POST("/reward", controllers.RewardUser)
+	server.GET("/today-stocks/:userId", controllers.GetTodayStocks)
+	server.GET("/historical-inr/:userId", controllers.GetHistoricalINR)
+	server.GET("/stats/:userId", controllers.GetUserStats)
+	server.GET("/portfolio/:userId", controllers.GetUserPortfolio)
 
 	port := initializers.GetEnv("PORT", "8080")
 

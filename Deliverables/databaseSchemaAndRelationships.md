@@ -98,12 +98,12 @@ For a reward of **10.5 shares of RELIANCE at ₹2450.75**:
 | STT_EXPENSE | 25.73 | 0 | Securities Transaction Tax (0.1%) |
 | GST_EXPENSE | 1.38 | 0 | GST on brokerage (18%) |
 | CASH_ACCOUNT | 0 | 25,767.70 | Total cash paid |
-| **TOTAL** | **25,767.70** | **25,767.70** | ✅ **BALANCED** |
+| **TOTAL** | **25,767.70** | **25,767.70** | **BALANCED** |
 
 **Key Points:**
-- ✅ **Total Debits = Total Credits** (25,767.70)
-- ✅ Stock and all expenses are DEBITS
-- ✅ Cash outflow is the single CREDIT
-- ✅ Proper double-entry accounting
+- **Total Debits = Total Credits** (25,767.70)
+- Stock and all expenses are DEBITS
+- Cash outflow is the single CREDIT
+- Proper double-entry accounting
 
 ---
