@@ -1,0 +1,138 @@
+{
+	"info": {
+		"_postman_id": "5e8573d9-43af-4729-ba58-6ace33d94ea0",
+		"name": "Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46246553"
+	},
+	"item": [
+		{
+			"name": "Rewards",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"reward_fractional_002\",\n    \"user_id\": \"user_456\",\n    \"stock_symbol\": \"HDFC\",\n    \"quantity\": 0.5,\n    \"reward_timestamp\": \"2025-11-16T13:00:00Z\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/reward",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"reward"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Today Stocks",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/today-stocks/user_123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"today-stocks",
+						"user_123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "History (Upto Yesterday)",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/historical-inr/user_456",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"historical-inr",
+						"user_456"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Stats",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/stats/user_123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"stats",
+						"user_123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Portfolio",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/portfolio/user_456",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"portfolio",
+						"user_456"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
